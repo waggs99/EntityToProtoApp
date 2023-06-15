@@ -1,0 +1,51 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider IsDarkMode="true"/>
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Color="Color.Primary" Fixed="true">
+
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudImage Src="Images/F.png" Width="180" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Filled.Settings"></MudIconButton>
+               
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+    
+    //private bool _hidePosition;
+    //private bool _loading;
+
+    //private MudTheme _theme = new();
+    //private bool _isDarkMode;
+
+    //public bool Dark_Mode_Switch { get; set; } = false;
+
+    //MudTheme CustomTheme = new MudTheme()
+    //    {
+    //        Palette = new Palette
+    //        {
+    //            Primary = Colors.Blue.Darken4
+    //        }
+    //    };
+
+    //protected override void OnInitialized()
+    //{
+    //    CustomTheme.PaletteDark.Primary = Colors.Blue.Darken4;
+    //}
+
+}

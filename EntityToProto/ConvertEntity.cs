@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityToProto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ public static class ConvertEntity
 {
     readonly static string[] CSharpTypes = { "DateTime?", "DateTime", "string", "string?", "int", "int?", "decimal", "decimal?", "bool", "bool?", "byte", "byte?", 
         "double", "double?", "long", "uint", "ulong", "long?", "uint?", "ulong?", "bytes", "DataTimeOffset", "TimeSpan", "DataTimeOffset?", "TimeSpan?" };
+
     public static string ToProto(string inputFile, string outputFile)
     {
         string inputLines;
@@ -45,7 +47,7 @@ public static class ConvertEntity
                         protoLine = "google.protobuf.Timestamp";
                         break;
                     case "string":
-                        protoLine = "string";
+                        protoLine = "google.protobuf.Timestamp";
                         break;
                     case "string?":
                         protoLine = "google.protobuf.StringValue";
@@ -151,5 +153,159 @@ public static class ConvertEntity
         File.WriteAllText(outputFile, output);
         return "Success";
     }
+
+    public static string ToEntity(string dtoName, string inputFile, string outputFile)
+    {
+        string inputLines;
+        //IEnumerable<string> lines;
+        try
+        {
+            //lines = File.ReadLines(inputFile);
+            inputLines = File.ReadAllText(inputFile);
+        }
+        catch (Exception)
+        {
+            return "Error: File does not exist";
+        }
+
+        string[] tokens = inputLines.Split(' ');
+        //foreach (string token in tokens)
+        // Console.WriteLine(token);
+        string output = "";
+
+        HashSet<string> types = new HashSet<string>();
+        foreach (string type in CSharpTypes)
+            types.Add(type);
+        //string temp;
+        for (int i = 0, protoMessagePropertyCount = 1; i < tokens.Length; i++)
+        {
+            if (types.Contains(tokens[i]))
+            {
+                bool isDate = false;
+                bool isNullableDecimal = false;
+                if (tokens[i] == "DateTime" || tokens[i] == "DateTime?")
+                    isDate = true;
+                if (tokens[i] == "decimal?" || tokens[i] == "Decimal?")
+                    isNullableDecimal = true;
+                i++;
+                output += tokens[i] + " = "; 
+                if(isNullableDecimal)
+                {
+                    output += $"ToNullable({dtoName}.{tokens[i]}),\n";
+                }
+                else if(isDate)
+                {
+                    output += $"{dtoName}.{tokens[i]} == null ? null : {dtoName}.{tokens[i]}.ToDateTimeOffset().DateTime,\n";
+                }
+                else
+                {
+                    output += $"{dtoName}.{tokens[i]},\n";
+                }
+            }
+        }
+        
+        File.WriteAllText(outputFile, output);
+
+        //List<Property> props = new List<Property>();
+        //foreach(var str in lines)
+        //{
+        //    props.Add(new Property(str));
+        //}
+        //var ot = "";
+        //foreach(var prop in props)
+        //{
+        //    ot += $"{dtoName}.{prop.Name} = ";
+        //}
+
+        return "Success";
+    }
+
+    public static string ToUpdate(string dtoName, string inputFile, string outputFile)
+    {
+        string inputLines;
+        //IEnumerable<string> lines;
+        try
+        {
+            //lines = File.ReadLines(inputFile);
+            inputLines = File.ReadAllText(inputFile);
+        }
+        catch (Exception)
+        {
+            return "Error: File does not exist";
+        }
+
+        string[] tokens = inputLines.Split(' ');
+        //foreach (string token in tokens)
+        // Console.WriteLine(token);
+        string output = "";
+
+        HashSet<string> types = new HashSet<string>();
+        foreach (string type in CSharpTypes)
+            types.Add(type);
+        //string temp;
+        for (int i = 0, protoMessagePropertyCount = 1; i < tokens.Length; i++)
+        {
+            if (types.Contains(tokens[i]))
+            {
+                i++;
+                output += $"input.{tokens[i]} = {dtoName}.{tokens[i]};\n";
+                
+            }
+        }
+
+        File.WriteAllText(outputFile, output);
+
+        //List<Property> props = new List<Property>();
+        //foreach(var str in lines)
+        //{
+        //    props.Add(new Property(str));
+        //}
+        //var ot = "";
+        //foreach(var prop in props)
+        //{
+        //    ot += $"{dtoName}.{prop.Name} = ";
+        //}
+
+        return "Success";
+    }
 }
 
+
+
+
+
+
+
+
+/*
+            if (types.Contains(tokens[i]))
+            {
+                bool isDate = false;
+                bool isNullableDecimal = false;
+                bool isNullableDateTime = false;
+                if (tokens[i] == "DateTime") 
+                    isDate = true;
+                if (tokens[i] == "DateTime?") 
+                    isNullableDateTime = true;
+                if (tokens[i] == "decimal?" || tokens[i] == "Decimal?")
+                    isNullableDecimal = true;
+                i++;
+                output += tokens[i] + " ="; 
+                if(isNullableDecimal)
+                {
+                    output += $" ToNullable({dtoName}.{tokens[i]}),\n";
+                }
+                else if(isDate)
+                {
+                    output += $" {dtoName}.ToDateTimeOffset().DateTime,\n";
+                }
+                else if(isNullableDateTime)
+                {
+                    output += $"= null ? null : {dtoName}.ToDateTimeOffset().DateTime,\n";
+                }
+                else
+                {
+                    output += $" {dtoName}.{tokens[i]},\n";
+                }
+            }
+            */

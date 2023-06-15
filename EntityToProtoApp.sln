@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityToProto", "EntityToProto\EntityToProto.csproj", "{B576C676-0294-4A03-A4FA-7D6D88EB11B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityToProto", "EntityToProto\EntityToProto.csproj", "{B576C676-0294-4A03-A4FA-7D6D88EB11B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityToProtoAppUI", "EntityToProtoAppUI\EntityToProtoAppUI.csproj", "{243CA212-82CB-483C-8E7E-C0231221A31A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B576C676-0294-4A03-A4FA-7D6D88EB11B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B576C676-0294-4A03-A4FA-7D6D88EB11B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B576C676-0294-4A03-A4FA-7D6D88EB11B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{243CA212-82CB-483C-8E7E-C0231221A31A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{243CA212-82CB-483C-8E7E-C0231221A31A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{243CA212-82CB-483C-8E7E-C0231221A31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{243CA212-82CB-483C-8E7E-C0231221A31A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
